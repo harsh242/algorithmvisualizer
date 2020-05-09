@@ -1,0 +1,234 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Huffman</title>
+    <link href="https://fonts.googleapis.com/css2?family=Baloo+Tamma+2:wght@500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+    <link rel="stylesheet" href="/style.css">
+    <link rel='icon' href='https://upload.wikimedia.org/wikipedia/commons/3/39/Identity_graph2.svg'>
+</head>
+<body>
+
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
+        <a class="navbar-brand" href="/index.html">Greedy Techniques</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo02" aria-controls="navbarTogglerDemo02" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+      
+        <div class="collapse navbar-collapse" id="navbarTogglerDemo02">
+          <ul class="navbar-nav ml-auto mt-2 mt-lg-0">
+            <li class="nav-item active">
+              <a class="nav-link" href="/huffman.html">Huffman Coding</a>
+            </li>
+            <li class="nav-item" >
+              <a class="nav-link" href="/prims.html" >Prim's algorithm</a>
+            </li>
+            <li class="nav-item" >
+              <a class="nav-link" href="/knapsack.html" >Knapsack Problem</a>
+            </li>
+            <li class="nav-item" >
+              <a class="nav-link" href="/task.html">Task Scheduling</a>
+            </li>
+            <li class="nav-item" >
+              <a class="nav-link" href="/djikstra.html">Single Source Shortest Path</a>
+            </li>
+          </ul>
+        </div>
+      </nav>
+      <br>
+      <br>
+     <section class="container mt-5">
+      <div class="jumbotron bg-light">
+        <h1 class="display-4">Huffman Coding</h1> 
+        <p class="lead">About the algorithm:</p>
+        <p>Huffman coding is a lossless data compression algorithm. In this algorithm, a variable-length code is assigned to input different characters. The code length is related to how frequently characters are used. Most frequent characters have the smallest codes and longer codes for least frequent characters.
+
+          There are mainly two parts:<br> First one to create a Huffman tree, and another one to traverse the tree to find codes.<br>
+          
+          For an example, consider some strings “YYYZXXYYX”, the frequency of character Y is larger than X and the character Z has the least frequency. So the length of the code for Y is smaller than X, and code for X will be smaller than Z.</p>
+        <hr>
+         <h3>Time Complexity:O(nlogn)</h3>
+      </div>
+    </section>
+    
+    <section>
+      <div class="container mb-5">
+      <div class="row">
+      <div class="col-lg-8">
+      <div class="card bg-light">
+        <h5 class="card-header">Input:</h5>
+        <div class="card-body">
+          Type in the text to compress here: <br>
+          <textarea id="input" rows="3" cols="30">aaabcc</textarea>
+          <br>
+          <input type="button" class="btn btn-info mt-3" onclick="compress()" value="Compress" />
+        </div>
+      </div>
+    </div>
+
+    <div class="col-lg-8 mt-5">
+      <div class="card bg-light">
+        <h5 class="card-header">Output:</h5>
+        <div class="card-body">
+          Text's length (8 bits per character): <span id="inputlength"></span><br/>
+          Probabilities of all distinct characters in the text:<br />
+          <span id="probabilities"></span><br/>
+          Binary codes assigned to characters: <br /><span id="codes"></span><br/>
+          Binary output: <span id="output"></span><br/>
+          Output's length in bits: <span id="outputlength"></span><br/>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</section>
+
+
+      <script type="text/javascript">
+   
+        function compress() {
+         var input = document.getElementById("input").value;
+         document.getElementById("inputlength").innerHTML =input.length*8;
+         var probabilities = getProbabilities(input);
+         var codes = getCodes(probabilities);
+         var output = compressHuffman(input, codes);
+         
+         var temp = "";
+         for (var elem in probabilities) {
+           temp += elem + " = " + probabilities[elem] + "<br/>";
+         }
+         document.getElementById("probabilities").innerHTML = temp;
+         
+         temp = "";
+         for (var elem in codes) {
+           temp += elem + " = " + codes[elem] + "<br/>";
+         }
+         document.getElementById("codes").innerHTML = temp;
+         document.getElementById("output").innerHTML = output;
+         document.getElementById("outputlength").innerHTML =output.length;
+        }
+        
+        function sortNumberAsc(a, b) {
+         return a[1] - b[1];
+        }
+        
+        function getCodes(prob) {
+         var tree = new Array();
+         var secondTree = new Array();
+         
+         this.getNext = function() {
+         if (tree.length > 0 && secondTree.length > 0 
+                       && tree[0].prob < secondTree[0].prob)
+           return tree.shift();
+         
+         if (tree.length > 0 && secondTree.length > 0 
+                        && tree[0].prob > secondTree[0].prob)
+           return secondTree.shift();
+         
+         if (tree.length > 0)
+           return tree.shift();
+         
+         return secondTree.shift();
+         }
+         var sortedProb = new Array();
+         var codes = new Array();
+         
+         var x = 0;
+         for (var elem in prob) {
+           sortedProb[x] = new Array(elem, prob[elem]);
+           x = x + 1;
+         }
+         
+         sortedProb = sortedProb.sort(sortNumberAsc);
+         x = 0;
+         
+         for (var elem in sortedProb) {
+           tree[x] = new node();
+           tree[x].prob = sortedProb[elem][1];
+           tree[x].value = sortedProb[elem][0];
+           x = x + 1;
+         }
+         while (tree.length + secondTree.length > 1) {
+          var left = getNext();
+          var right = getNext();
+          var newnode = new node();
+          newnode.left = left;
+          newnode.right = right;
+          newnode.prob = left.prob + right.prob;
+          newnode.left.parent = newnode;
+          newnode.right.parent = newnode;
+          secondTree.push(newnode);
+         }
+        
+         var currentnode = secondTree[0];
+         var code = "";
+         while (currentnode) {
+          if (currentnode.value) {
+           codes[currentnode.value] = code;
+           code = code.substr(0, code.length - 1);
+           currentnode.visited = true;
+           currentnode = currentnode.parent;
+          }
+          else if (!currentnode.left.visited) {
+           currentnode = currentnode.left;
+           code += "0";
+          }
+          else if (!currentnode.right.visited) {
+           currentnode = currentnode.right;
+           code += "1";
+          }
+          else {
+           currentnode.visited = true;
+           currentnode = currentnode.parent;
+           code = code.substr(0, code.length - 1);
+          }
+         }
+         return codes;
+        }
+        
+        function node() {
+          this.left = null;
+          this.right = null;
+          this.prob = null;
+          this.value = null;
+          this.code = "";
+          this.parent = null;
+          this.visited = false;
+        }
+        
+        function compressHuffman(input, codes) {
+          var output = input.split("");
+          for (var elem in output) {
+           output[elem] = codes[output[elem]];
+          }
+          return output.join("");
+        }
+        
+        function getProbabilities(input) {
+          var prob = new Array();
+          var x = 0;
+          var len = input.length;
+          while (x < len) {
+           var chr = input.charAt(x);
+           if (prob[chr]) {
+            prob[chr] = prob[chr] + 1;
+           }
+           else {
+            prob[chr] = 1;
+           }
+           x++;
+          }
+        
+          for (var elem in prob) {
+           prob[elem] = prob[elem] / len;
+          }
+          return prob;
+        }
+        </script>
+      
+<script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+</body>
+</html>
