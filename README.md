@@ -2,7 +2,7 @@
 
 # A Web Interface for all the popular Greedy Algorithms.
 
-## It's live at [https://harsh242.github.io/algorithmvisualizer/](Algorithm Visualiser)
+## It's live at [https://harsh242.github.io/algorithmvisualizer/]
 
 ## TECH STACK
 * HTML 
