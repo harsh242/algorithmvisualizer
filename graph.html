@@ -1,0 +1,116 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Greedy Techniques</title>
+    <link href="https://fonts.googleapis.com/css2?family=Baloo+Tamma+2:wght@500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+    <link rel="stylesheet" href="style.css">
+    <link rel='icon' href='https://upload.wikimedia.org/wikipedia/commons/3/39/Identity_graph2.svg'>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script>
+</head>
+<body>
+
+    <nav class="navbar navbar-expand-lg  fixed-top">
+        <a class="navbar-brand" href="index.html">Greedy Techniques</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo02" aria-controls="navbarTogglerDemo02" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+      
+        <div class="collapse navbar-collapse" id="navbarTogglerDemo02">
+          <ul class="navbar-nav ml-auto mt-2 mt-lg-0">
+            <li class="nav-item ">
+              <a class="nav-link" href="https://harsh242.github.io/HarshBadhai/index.html">Harsh Kumar Badhai</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link ">18103041</a>
+            </li>
+          </ul>
+        </div>
+      </nav>
+
+      <section class="container section-gap  ">
+          <div class="row mb-5">
+              <div class="col-lg-8">
+                  <h1 >Time-Input Graphs</h1>
+                </div>
+             </div>
+    </section>
+    <div class="container">
+        <div class="jumbotron">
+            <div class="col-lg-4">
+                <canvas id="myChart"></canvas>
+            </div>
+                <div class="col-lg-4">
+                    <canvas id="myChart2"></canvas>
+                </div>
+        </div>
+    </div>
+  
+   
+           
+
+
+      
+<script>
+  var ctx = document.getElementById('myChart').getContext('2d');
+  var ctx2 = document.getElementById('myChart2').getContext('2d');
+var chart = new Chart(ctx, {
+    // The type of chart we want to create
+    type: 'line',
+
+    // The data for our dataset
+    data: {
+        labels: ['20000', '80000', '140000', '200000'],
+        datasets: [{
+            label: 'Huffman coding',
+            borderColor: 'rgb(255, 99, 132)',
+            data: [0.001,0.0017,0.0025,0.0032],
+           
+        }
+      ]
+    },
+    
+    // Configuration options go here
+    options: {
+        title: {
+            display: true,
+            text: 'The time input-size graph of all these algorthms'
+        },
+
+    }
+});
+
+var chart2=new Chart(ctx2,{
+    // The type of chart we want to create
+    type: 'line',
+
+    // The data for our dataset
+    data: {
+        labels: ['20000', '80000', '140000', '200000'],
+        datasets: [{
+            label: 'Huffman coding',
+            borderColor: 'rgb(255, 99, 132)',
+            data: [0.001,0.0017,0.0025,0.0032],
+           
+        }
+      ]
+    },
+    
+    // Configuration options go here
+    options: {
+        title: {
+            display: true,
+            text: 'The time input-size graph of all these algorthms'
+        },
+
+    }
+});
+</script>
+
+      
+<script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+</body>
+</html>
